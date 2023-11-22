@@ -10,6 +10,8 @@ public class PlayerShoot : MonoBehaviour
     public List<Transform> shootPoints;
     public GameObject bulletPrefab;
 
+    private Vector3 fixRotation = Vector3.zero;
+
     private void Start()
     {
         StartCoroutine(TimeBetweenShoot());
@@ -24,6 +26,7 @@ public class PlayerShoot : MonoBehaviour
         {
             GameObject bullet = BulletManager.instance.CreateBullet();
             bullet.transform.position = shootPoints[i].transform.position;
+            bullet.transform.rotation = Quaternion.Euler(fixRotation);
             bullet.GetComponent<Rigidbody2D>().velocity = shootForce;
         }
         /***************************************************/

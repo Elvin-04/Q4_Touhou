@@ -7,7 +7,7 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
-        //Application.targetFrameRate = maxFramerate;
+        Application.targetFrameRate = maxFramerate;
     }
 
 }

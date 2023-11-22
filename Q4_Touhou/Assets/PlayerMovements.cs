@@ -38,27 +38,4 @@ public class PlayerMovements : MonoBehaviour
 
         rb.velocity = moveVector;
     }
-
-
-
-    /*
-     * 
-     * if (canMove && !GetComponent<PlayerAttack>()._isPause)
-        {
-            if (leftJoystickValue.x < -0.5f)
-            {
-                rb.velocity = new Vector2(-speed, rb.velocity.y);
-            }
-            else if (leftJoystickValue.x > 0.5f)
-            {
-                rb.velocity = new Vector2(speed, rb.velocity.y);
-            }
-        }
-        else if (GetComponent<PlayerAttack>()._isPause)
-        {
-            rb.velocity = Vector2.zero;
-        }
-     * 
-     * 
-     */
 }
