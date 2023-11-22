@@ -5,7 +5,9 @@ public class BulletManager : MonoBehaviour
 {
 
     public GameObject bulletPrefab;
+    public GameObject bulletPlayerPrefab;
     public int initialBulletSpawn = 3000;
+    public int initialBulletPlayerSpawn = 250;
 
     public static BulletManager instance { get; private set; }
 
@@ -25,17 +27,31 @@ public class BulletManager : MonoBehaviour
             bullet.SetActive(false);
             AllBullets.Add(bullet);
         }
+
+        for (int i = 0; i < initialBulletPlayerSpawn; i++)
+        {
+            GameObject bullet = Instantiate(bulletPlayerPrefab);
+            bullet.SetActive(false);
+            AllBullets.Add(bullet);
+        }
     }
 
-    public GameObject CreateBullet()
+    public GameObject CreateBullet(string tag = "Bullet")
     {
         for (int i = 0; i < AllBullets.Count; i++)
         {
-            if (AllBullets[i].tag == "Bullet" && !AllBullets[i].activeSelf)
+            if (AllBullets[i].tag == tag && !AllBullets[i].activeSelf)
             {
                 AllBullets[i].SetActive(true);
                 return AllBullets[i];
             }
+        }
+
+        if(tag == "PlayerBullet")
+        {
+            GameObject bulletPlayer = Instantiate(bulletPlayerPrefab);
+            AllBullets.Add(bulletPlayer);
+            return bulletPlayer;
         }
 
         GameObject bullet = Instantiate(bulletPrefab);

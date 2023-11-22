@@ -12,9 +12,12 @@ public class PlayerShoot : MonoBehaviour
 
     private Vector3 fixRotation = Vector3.zero;
 
+    public float timeBeforeFirstShoot = 3.5f;
+
+
     private void Start()
     {
-        StartCoroutine(TimeBetweenShoot());
+        StartShoot();
     }
 
 
@@ -24,12 +27,29 @@ public class PlayerShoot : MonoBehaviour
         /***************************************************/
         for (int i = 0; i < shootPoints.Count; i++)
         {
-            GameObject bullet = BulletManager.instance.CreateBullet();
+            GameObject bullet = BulletManager.instance.CreateBullet("PlayerBullet");
             bullet.transform.position = shootPoints[i].transform.position;
             bullet.transform.rotation = Quaternion.Euler(fixRotation);
             bullet.GetComponent<Rigidbody2D>().velocity = shootForce;
         }
         /***************************************************/
+            
+        StartCoroutine(TimeBetweenShoot());
+    }
+
+    public void StartShoot()
+    {
+        StartCoroutine(TimeToShootAgain());
+    }
+
+    public void StopShoot()
+    {
+        StopAllCoroutines();
+    }
+
+    IEnumerator TimeToShootAgain()
+    {
+        yield return new WaitForSeconds(timeBeforeFirstShoot);
         StartCoroutine(TimeBetweenShoot());
     }
 }

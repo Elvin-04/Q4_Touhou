@@ -1,5 +1,7 @@
 using NUnit.Framework;
+using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 
 public class EnemyShoot : MonoBehaviour
@@ -16,16 +18,69 @@ public class EnemyShoot : MonoBehaviour
     //Pattern 2
     private List<Vector3> spawnBulletPosition;
 
+    public List<int> patterns;
+    private int currentPattern;
 
+    private bool isPause = false;
+
+    private EnemyMovements movements;
+    private float currentTimer = 0.0f;
+
+    public float TimeByPattern = 12.0f;
+    public float pauseBetweenPatterns = 2.0f;
 
     private void Start()
     {
         animator = GetComponent<Animator>();
+        movements = GetComponent<EnemyMovements>();
         enemyTransform = transform;
         spawnBulletPosition = new List<Vector3>();
-        /**********To delete**********/
-        animator.SetInteger("Pattern", 2);
-        /*****************************/
+    }
+
+    private void FixedUpdate()
+    {
+        if(!movements.isMoving)
+        {
+            if (currentTimer == 0.0f)
+            {
+                ChangePattern(patterns[currentPattern]);
+                currentTimer += Time.deltaTime;
+            }
+            else
+            {
+                ChangePattern(patterns[currentPattern]);
+                if (currentTimer >= TimeByPattern && !isPause)
+                {
+                    isPause = true;
+                    StartCoroutine(TimeBetwwenPattern());
+                }
+                else
+                {
+                    currentTimer += Time.deltaTime;
+                }
+            }
+        }
+
+        if(movements.isMoving)
+        {
+            ChangePattern(0);
+        }
+    }
+
+    IEnumerator TimeBetwwenPattern()
+    {
+        ChangePattern(0);
+        yield return new WaitForSeconds(pauseBetweenPatterns);
+        isPause = false;
+        if(currentPattern + 1 < patterns.Count)
+        {
+            currentPattern += 1;
+        }
+        else
+        {
+            currentPattern = 0;
+        }
+        currentTimer = 0.0f;
     }
 
     public void Shoot()
@@ -65,5 +120,17 @@ public class EnemyShoot : MonoBehaviour
         }
     }
 
+    public void ChangePattern(int pattern)
+    {
+        animator.SetInteger("Pattern", pattern);
+    }
 
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if(collision.transform.tag == "PlayerBullet")
+        {
+            WaveManager.instance.KillEnemy(this.gameObject);
+            BulletManager.instance.DestroyBullet(collision.gameObject);
+        }
+    }
 }
