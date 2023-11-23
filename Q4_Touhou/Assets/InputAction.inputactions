@@ -70,6 +70,17 @@
                     "action": "Movements",
                     "isComposite": false,
                     "isPartOfComposite": true
+                },
+                {
+                    "name": "",
+                    "id": "28455d6e-41bd-42c3-9d65-72b299499710",
+                    "path": "<Gamepad>/leftStick",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Movements",
+                    "isComposite": false,
+                    "isPartOfComposite": false
                 }
             ]
         }

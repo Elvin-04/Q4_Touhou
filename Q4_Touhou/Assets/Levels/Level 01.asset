@@ -9,8 +9,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c40d6f5816bcf2e44b2c95e6eae89bd7, type: 3}
-  m_Name: Wave 1
+  m_Script: {fileID: 11500000, guid: 5b438aa414f3cda47996dc4f9aa39809, type: 3}
+  m_Name: Level 01
   m_EditorClassIdentifier: 
-  ennemies:
-  - {fileID: 11400000, guid: 5f259999dd85f954dbe7858b4c120913, type: 2}
+  level: 1
+  levelWin: 0
+  highScoreInt: 0
+  bestTimeSeconds: 0
+  highScore: 0
+  bestTime: 0:00
+  sceneName: Level01

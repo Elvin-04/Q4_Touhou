@@ -8,8 +8,7 @@ public class PlayerManager : MonoBehaviour
     {
         if(collision.transform.tag == "Bullet")
         {
-            Debug.Log("Loose");
-            //Call Loose function in GameManager
+            GameManager.instance.PlayerDeath();
         }
     }
 }
