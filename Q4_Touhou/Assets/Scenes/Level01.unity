@@ -3213,6 +3213,7 @@ MonoBehaviour:
   timer: {fileID: 1520190685}
   winText: {fileID: 1872527159}
   timerImage: {fileID: 850777491}
+  player: {fileID: 918719142}
   endLevelCanva: {fileID: 513891345}
   uiCanva: {fileID: 633901947}
   win: {fileID: 1153287642}
@@ -4375,7 +4376,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -46.639, y: -296}
+  m_AnchoredPosition: {x: -46.638916, y: -296}
   m_SizeDelta: {x: 346.7211, y: 86.6803}
   m_Pivot: {x: 1, y: 1}
 --- !u!114 &1872527161

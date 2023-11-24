@@ -21,6 +21,7 @@ public class GameManager : MonoBehaviour
     public TextMeshProUGUI timer;
     public GameObject winText;
     public Image timerImage;
+    public GameObject player;
 
     [Header("End Level")]
     public GameObject endLevelCanva;
@@ -78,23 +79,25 @@ public class GameManager : MonoBehaviour
     {
         endLevelCanva.SetActive(true);
         uiCanva.SetActive(false);
-        if(levelWin)
+        player.GetComponent<Collider2D>().enabled = false;
+        if (levelWin)
         {
             level.levelWin = true;
             win.SetActive(true);
-            if (currentTimer > level.bestTimeSeconds)
-            {
-                level.bestTimeSeconds = currentTimer;
-
-                if ((int)currentTimer % 60 < 10)
-                    level.bestTime = (int)currentTimer / 60 + ":0" + (int)currentTimer % 60;
-                else
-                    level.bestTime = (int)currentTimer / 60 + ":" + (int)currentTimer % 60;
-            }
         }
         else
         {
             loose.SetActive(true);
+        }
+
+        if (currentTimer > level.bestTimeSeconds)
+        {
+            level.bestTimeSeconds = currentTimer;
+
+            if ((int)currentTimer % 60 < 10)
+                level.bestTime = (int)currentTimer / 60 + ":0" + (int)currentTimer % 60;
+            else
+                level.bestTime = (int)currentTimer / 60 + ":" + (int)currentTimer % 60;
         }
 
         highScore.text = "high score : " + level.highScore;
