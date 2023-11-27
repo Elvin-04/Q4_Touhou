@@ -9,12 +9,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5b438aa414f3cda47996dc4f9aa39809, type: 3}
-  m_Name: Level 01
+  m_Script: {fileID: 11500000, guid: ece0408b29ae84046ba591a4b195cdc4, type: 3}
+  m_Name: EnemyType 1
   m_EditorClassIdentifier: 
-  level: 1
-  levelWin: 0
-  highScore: 0
-  bestTimeSeconds: 0
-  bestTime: 0:00
-  sceneName: Level01
+  sideSpawn: 2
+  prefab: {fileID: 7333392693542868006, guid: a58cf10bbddccdf429b57fec2642d548, type: 3}
+  patternList: 0300000002000000

@@ -4,9 +4,11 @@ using UnityEngine;
 
 public class PlayerManager : MonoBehaviour
 {
+    public List<string> bulletTags = new List<string>();
+
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if(collision.transform.tag == "Bullet")
+        if(bulletTags.Contains(collision.gameObject.tag))
         {
             GameManager.instance.PlayerDeath();
         }

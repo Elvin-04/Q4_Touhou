@@ -6,8 +6,10 @@ public class BulletManager : MonoBehaviour
 
     public GameObject bulletPrefab;
     public GameObject bulletPlayerPrefab;
-    public int initialBulletSpawn = 3000;
-    public int initialBulletPlayerSpawn = 250;
+
+    public List<GameObject> differentBulletType = new List<GameObject>();
+
+    public int BulletSpawnByType = 300;
 
     public static BulletManager instance { get; private set; }
 
@@ -21,18 +23,15 @@ public class BulletManager : MonoBehaviour
 
     void Start()
     {
-        for (int i = 0; i < initialBulletSpawn; i++) 
-        {
-            GameObject bullet = Instantiate(bulletPrefab);
-            bullet.SetActive(false);
-            AllBullets.Add(bullet);
-        }
 
-        for (int i = 0; i < initialBulletPlayerSpawn; i++)
+        for (int i = 0; i < differentBulletType.Count; i++)
         {
-            GameObject bullet = Instantiate(bulletPlayerPrefab);
-            bullet.SetActive(false);
-            AllBullets.Add(bullet);
+            for (int j = 0; j < BulletSpawnByType; j++)
+            {
+                GameObject bullet = Instantiate(differentBulletType[i]);
+                bullet.SetActive(false);
+                AllBullets.Add(bullet);
+            }
         }
     }
 
@@ -47,16 +46,20 @@ public class BulletManager : MonoBehaviour
             }
         }
 
-        if(tag == "PlayerBullet")
+
+        foreach(GameObject type in differentBulletType)
         {
-            GameObject bulletPlayer = Instantiate(bulletPlayerPrefab);
-            AllBullets.Add(bulletPlayer);
-            return bulletPlayer;
+            if(type.tag == tag)
+            {
+                GameObject bulletToCreate = Instantiate(type);
+                AllBullets.Add(bulletToCreate);
+                return bulletToCreate;
+            }
         }
 
-        GameObject bullet = Instantiate(bulletPrefab);
-        AllBullets.Add(bullet);
-        return bullet;
+
+        Debug.LogError("Bullet tag does not exist");
+        return null;
     }
 
 

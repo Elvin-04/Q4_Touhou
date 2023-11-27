@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class PlayerShoot : MonoBehaviour
 {
@@ -14,10 +15,13 @@ public class PlayerShoot : MonoBehaviour
 
     public float timeBeforeFirstShoot = 3.5f;
 
+    bool canShoot = false;
+
 
     private void Start()
     {
         StartShoot();
+        UIManager.instance.SetCanShootText(canShoot);
     }
 
 
@@ -44,12 +48,28 @@ public class PlayerShoot : MonoBehaviour
 
     public void StopShoot()
     {
+        canShoot = false;
+        UIManager.instance.SetCanShootText(canShoot);
         StopAllCoroutines();
     }
 
     IEnumerator TimeToShootAgain()
     {
         yield return new WaitForSeconds(timeBeforeFirstShoot);
-        StartCoroutine(TimeBetweenShoot());
+        canShoot = true;
+        UIManager.instance.SetCanShootText(canShoot);
+    }
+
+    public void Shoot(InputAction.CallbackContext ctx)
+    {
+        if(ctx.started && canShoot)
+        {
+            StartCoroutine(TimeBetweenShoot());
+        }
+
+        if (ctx.canceled && canShoot)
+        {
+            StopAllCoroutines();
+        }
     }
 }

@@ -29,12 +29,15 @@ public class EnemyShoot : MonoBehaviour
     public float TimeByPattern = 12.0f;
     public float pauseBetweenPatterns = 2.0f;
 
+    public List<Transform> createdBullet;
+    private float force;
     private void Start()
     {
         animator = GetComponent<Animator>();
         movements = GetComponent<EnemyMovements>();
         enemyTransform = transform;
         spawnBulletPosition = new List<Vector3>();
+        createdBullet = new List<Transform>();
     }
 
     private void FixedUpdate()
@@ -85,7 +88,7 @@ public class EnemyShoot : MonoBehaviour
 
     public void Shoot()
     {
-        GameObject bullet = BulletManager.instance.CreateBullet();
+        GameObject bullet = BulletManager.instance.CreateBullet("e_bullet_1");
         bullet.transform.position = canon.position;
         bullet.transform.LookAt(enemyTransform.position);
         bullet.transform.Rotate(positionFix);
@@ -93,6 +96,7 @@ public class EnemyShoot : MonoBehaviour
         shootDirection = canon.position - enemyTransform.position;
 
         bullet.GetComponent<Rigidbody2D>().velocity = shootDirection.normalized * shootforce;
+        createdBullet.Add(bullet.transform);
     }
 
     public void DefinePositionBullet()
@@ -105,18 +109,25 @@ public class EnemyShoot : MonoBehaviour
         spawnBulletPosition.Clear();
     }
 
-    public void ShootBulletsPattern2()
+    public void ShootBulletsPatternWithList(string bulletType)
     {
         for (int i = 0; i < spawnBulletPosition.Count; i++)
         {
-            GameObject bullet = BulletManager.instance.CreateBullet();
+            force = shootforce;
+            GameObject bullet = BulletManager.instance.CreateBullet(bulletType);
             bullet.transform.position = spawnBulletPosition[i];
-            bullet.transform.LookAt(enemyTransform.position);
-            bullet.transform.Rotate(positionFix);
+            //bullet.transform.LookAt(enemyTransform.position);
+            //bullet.transform.Rotate(positionFix);
+
+            if(bulletType == "e_bullet_2")
+            {
+                force = bullet.GetComponent<GrowBiggerBullet>().force;
+            }
 
             shootDirection = spawnBulletPosition[i] - enemyTransform.position;
 
-            bullet.GetComponent<Rigidbody2D>().velocity = shootDirection.normalized * shootforce;
+            bullet.GetComponent<Rigidbody2D>().velocity = shootDirection.normalized * force;
+            createdBullet.Add(bullet.transform);
         }
     }
 
@@ -129,8 +140,15 @@ public class EnemyShoot : MonoBehaviour
     {
         if(collision.transform.tag == "PlayerBullet")
         {
+            ScoreManager.instance.AddScore(1500);
             WaveManager.instance.KillEnemy(this.gameObject);
             BulletManager.instance.DestroyBullet(collision.gameObject);
+
+            foreach(Transform bullet in createdBullet)
+            {
+                if(bullet.gameObject.activeSelf)
+                    ScoreManager.instance.AddScore(600);
+            }
         }
     }
 }

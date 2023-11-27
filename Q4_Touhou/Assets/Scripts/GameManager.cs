@@ -100,8 +100,13 @@ public class GameManager : MonoBehaviour
                 level.bestTime = (int)currentTimer / 60 + ":" + (int)currentTimer % 60;
         }
 
-        highScore.text = "high score : " + level.highScore;
-        //score.text = "score : " + Complete when score done
+        if(ScoreManager.instance.actualScore > level.highScore)
+        {
+            level.highScore = ScoreManager.instance.actualScore;
+        }
+
+        highScore.text = "high score : " + level.highScore.ToString("00000000000");
+        score.text = "score : " + ScoreManager.instance.actualScore.ToString("00000000000");
 
         bestTime.text = "best time : " + level.bestTime;
 
