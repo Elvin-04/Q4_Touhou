@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ece0408b29ae84046ba591a4b195cdc4, type: 3}
   m_Name: EnemyType 3
   m_EditorClassIdentifier: 
-  sideSpawn: 8
+  sideSpawn: 2
   prefab: {fileID: 7333392693542868006, guid: a58cf10bbddccdf429b57fec2642d548, type: 3}
-  patternList: 020000000200000001000000
+  patternList: 03000000

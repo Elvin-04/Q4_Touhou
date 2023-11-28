@@ -25,7 +25,7 @@ public class ScoreManager : MonoBehaviour
         actualScore = 0;
         AddScore(0);
 
-        string highScore = GameManager.instance.level.highScore.ToString("000000000000");
+        string highScore = GameManager.instance.level.highScore.ToString("000000000");
 
         highScoretext.text = highScore;
     }
@@ -47,7 +47,7 @@ public class ScoreManager : MonoBehaviour
     {
         actualScore += amount;
         
-        string score = actualScore.ToString("000000000000");
+        string score = actualScore.ToString("000000000");
 
         scoreText.text = score;
     }

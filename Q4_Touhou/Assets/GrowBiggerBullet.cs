@@ -10,15 +10,18 @@ public class GrowBiggerBullet : MonoBehaviour
 
     private Vector2 maxScale;
     private Vector2 velocity;
+    private Transform myTransform;
+
 
     private void OnEnable()
     {
+        myTransform = transform;
         maxScale.Set(maximalScale, maximalScale);
-        transform.localScale = new Vector2(initialScale, initialScale);
+        myTransform.localScale = new Vector2(initialScale, initialScale);
     }
 
     private void FixedUpdate()
     {
-        transform.localScale = Vector2.SmoothDamp(transform.localScale, maxScale, ref velocity, timeToGrowBigger);
+        myTransform.localScale = Vector2.SmoothDamp(myTransform.localScale, maxScale, ref velocity, timeToGrowBigger);
     }
 }

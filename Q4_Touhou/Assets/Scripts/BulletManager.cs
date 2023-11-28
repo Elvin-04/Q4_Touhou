@@ -4,9 +4,6 @@ using UnityEngine;
 public class BulletManager : MonoBehaviour
 {
 
-    public GameObject bulletPrefab;
-    public GameObject bulletPlayerPrefab;
-
     public List<GameObject> differentBulletType = new List<GameObject>();
 
     public int BulletSpawnByType = 300;

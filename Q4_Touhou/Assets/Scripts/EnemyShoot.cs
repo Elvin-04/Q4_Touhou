@@ -29,7 +29,6 @@ public class EnemyShoot : MonoBehaviour
     public float TimeByPattern = 12.0f;
     public float pauseBetweenPatterns = 2.0f;
 
-    public List<Transform> createdBullet;
     private float force;
     private void Start()
     {
@@ -37,7 +36,6 @@ public class EnemyShoot : MonoBehaviour
         movements = GetComponent<EnemyMovements>();
         enemyTransform = transform;
         spawnBulletPosition = new List<Vector3>();
-        createdBullet = new List<Transform>();
     }
 
     private void FixedUpdate()
@@ -96,7 +94,6 @@ public class EnemyShoot : MonoBehaviour
         shootDirection = canon.position - enemyTransform.position;
 
         bullet.GetComponent<Rigidbody2D>().velocity = shootDirection.normalized * shootforce;
-        createdBullet.Add(bullet.transform);
     }
 
     public void DefinePositionBullet()
@@ -127,7 +124,6 @@ public class EnemyShoot : MonoBehaviour
             shootDirection = spawnBulletPosition[i] - enemyTransform.position;
 
             bullet.GetComponent<Rigidbody2D>().velocity = shootDirection.normalized * force;
-            createdBullet.Add(bullet.transform);
         }
     }
 
@@ -144,11 +140,7 @@ public class EnemyShoot : MonoBehaviour
             WaveManager.instance.KillEnemy(this.gameObject);
             BulletManager.instance.DestroyBullet(collision.gameObject);
 
-            foreach(Transform bullet in createdBullet)
-            {
-                if(bullet.gameObject.activeSelf)
-                    ScoreManager.instance.AddScore(600);
-            }
+            ScoreManager.instance.AddScore(Random.Range(8000, 25000));
         }
     }
 }

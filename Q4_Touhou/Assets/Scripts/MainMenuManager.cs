@@ -18,10 +18,18 @@ public class MainMenuManager : MonoBehaviour
 
     public string sceneToLoad = "";
 
+    public GameObject pannel;
+
+    private void Start()
+    {
+        pannel.SetActive(false);
+    }
+
     public void OnClick(int level)
     {
+        pannel.SetActive(true);
         levelNumber.text = "Level " + allLevels[level].level;
-        highScore.text = "high score : " + allLevels[level].highScore;
+        highScore.text = "high score : " + allLevels[level].highScore.ToString("000000000");
         maxTime.text = "Best time : " + allLevels[level].bestTime;
         sceneToLoad = allLevels[level].sceneName;
 
@@ -42,6 +50,11 @@ public class MainMenuManager : MonoBehaviour
     {
         if(sceneToLoad != "")
             SceneManager.LoadScene(sceneToLoad);
+    }
+
+    public void Quit()
+    {
+        Application.Quit();
     }
 }
 

@@ -13,5 +13,4 @@ MonoBehaviour:
   m_Name: Wave 2
   m_EditorClassIdentifier: 
   ennemies:
-  - {fileID: 11400000, guid: 5f259999dd85f954dbe7858b4c120913, type: 2}
-  - {fileID: 11400000, guid: 5457a63420cdda94691f0d6f01c75256, type: 2}
+  - {fileID: 11400000, guid: d36ca81ff1d035740bf5cbc3215193d9, type: 2}

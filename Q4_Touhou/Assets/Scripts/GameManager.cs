@@ -105,8 +105,8 @@ public class GameManager : MonoBehaviour
             level.highScore = ScoreManager.instance.actualScore;
         }
 
-        highScore.text = "high score : " + level.highScore.ToString("00000000000");
-        score.text = "score : " + ScoreManager.instance.actualScore.ToString("00000000000");
+        highScore.text = "high score : " + level.highScore.ToString("00000000");
+        score.text = "score : " + ScoreManager.instance.actualScore.ToString("00000000");
 
         bestTime.text = "best time : " + level.bestTime;
 

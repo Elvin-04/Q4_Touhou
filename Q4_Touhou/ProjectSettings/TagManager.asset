@@ -8,6 +8,7 @@ TagManager:
   - PlayerBullet
   - e_bullet_1
   - e_bullet_2
+  - e_bullet_3
   layers:
   - Default
   - TransparentFX
@@ -18,7 +19,7 @@ TagManager:
   - Bullet
   - Enemy
   - PlayerBullet
-  - 
+  - Wall
   - 
   - 
   - 

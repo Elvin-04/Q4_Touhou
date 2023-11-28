@@ -139,7 +139,6 @@ MonoBehaviour:
   patterns: 
   TimeByPattern: 12
   pauseBetweenPatterns: 2
-  createdBullet: []
 --- !u!95 &5641525282687446332
 Animator:
   serializedVersion: 7
@@ -175,7 +174,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isMoving: 0
-  speed: 1.5
+  speed: 1.8
   actualPosition: 0
   timeBetweenEachMovement: 10
 --- !u!58 &5102057848755812436
