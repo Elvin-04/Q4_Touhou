@@ -1,120 +1,116 @@
-using System.Security.Principal;
 using TMPro;
-using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
-    public int maxFramerate = 120;
-    public bool levelWin = false;
-    public static GameManager instance {  get; private set; } 
-
-    [Header("Level")]
-    public Level level;
-
-    [Header("Game")]
-    public int timeToWin = 10;
-
-    [Header("References")]
-    public TextMeshProUGUI timer;
-    public GameObject winText;
-    public Image timerImage;
+    public static GameManager instance {  get; private set; }
+    public AudioSource source;
+    private AudioClip clip;
     public GameObject player;
 
-    [Header("End Level")]
-    public GameObject endLevelCanva;
-    public GameObject uiCanva;
-    public GameObject win;
-    public GameObject loose;
-    public TextMeshProUGUI highScore;
-    public TextMeshProUGUI score;
-    public TextMeshProUGUI bestTime;
+    public float goalTimer;
+    private float currentTimer = 0.0f;
+
+    public GameMode gameMode;
+
+    private int life;
+    public TextMeshProUGUI lifeText;
+
+    public Level level;
+    public GameObject endLevelPannel;
+    public TextMeshProUGUI levelWin;
     public TextMeshProUGUI time;
 
-    private float currentTimer = 0.0f;
+    private bool winned = false;
+
 
     private void Awake()
     {
         instance = this;
     }
 
-    void Start()
+    private void Start()
     {
-        Application.targetFrameRate = maxFramerate;
-        timerImage.fillAmount = 0;
+        clip = source.clip;
+        if(goalTimer == 0)
+            goalTimer = clip.length;
+
+        gameMode = level.mode;
+        SetLife();
+        lifeText.text = life.ToString();
+
     }
 
     private void FixedUpdate()
     {
         currentTimer += Time.deltaTime;
-        
-        SetTimerText();
 
-        if(currentTimer >= timeToWin)
+        if (currentTimer >= goalTimer && !winned)
         {
-            Win();
+            winned = true;
+            EndLevel(true);
+
         }
     }
 
-    private void SetTimerText()
+    private void SetLife()
     {
-        if ((int)currentTimer % 60 < 10)
-            timer.text = (int)currentTimer / 60 + ":0" + (int)currentTimer % 60;
-        else
-            timer.text = (int)currentTimer / 60 + ":" + (int)currentTimer % 60;
-
-
-        timerImage.fillAmount = currentTimer / timeToWin;
+        switch (gameMode)
+        {
+            case GameMode.OneShot:
+                life = 1;
+                break;
+            case GameMode.ThreeShot:
+                life = 3;
+                break;
+            case GameMode.NeverDie:
+                life = 0;
+                break;
+        }
     }
 
-    public void Win()
+    public void TakeBullet()
     {
-        winText.SetActive(true);
-        levelWin = true;
+        switch (gameMode)
+        {
+            case GameMode.OneShot:
+                life--;
+                break;
+            case GameMode.ThreeShot:
+                life--;
+                break;
+            case GameMode.NeverDie:
+                life++;
+                break;
+        }
+
+        if (gameMode != GameMode.NeverDie && life <= 0)
+        {
+            EndLevel(false);
+        }
+
+        lifeText.text = life.ToString();
     }
 
-    public void PlayerDeath()
+    public void EndLevel(bool win)
     {
-        endLevelCanva.SetActive(true);
-        uiCanva.SetActive(false);
-        player.GetComponent<Collider2D>().enabled = false;
-        if (levelWin)
-        {
-            level.levelWin = true;
-            win.SetActive(true);
-        }
+        player.SetActive(false);
+        endLevelPannel.SetActive(true);
+
+        if(gameMode != GameMode.NeverDie)
+            level.levelWin = win;
+
+        if (win)
+            levelWin.text = "Level win";
         else
-        {
-            loose.SetActive(true);
-        }
+            levelWin.text = "Level lost";
 
-        if (currentTimer > level.bestTimeSeconds)
-        {
-            level.bestTimeSeconds = currentTimer;
+        string currentMinute = ((int)currentTimer / 60).ToString();
+        string currentSecond = ((int)currentTimer % 60).ToString("00");
 
-            if ((int)currentTimer % 60 < 10)
-                level.bestTime = (int)currentTimer / 60 + ":0" + (int)currentTimer % 60;
-            else
-                level.bestTime = (int)currentTimer / 60 + ":" + (int)currentTimer % 60;
-        }
-
-        if(ScoreManager.instance.actualScore > level.highScore)
-        {
-            level.highScore = ScoreManager.instance.actualScore;
-        }
-
-        highScore.text = "high score : " + level.highScore.ToString("00000000");
-        score.text = "score : " + ScoreManager.instance.actualScore.ToString("00000000");
-
-        bestTime.text = "best time : " + level.bestTime;
-
-        if ((int)currentTimer % 60 < 10)
-            time.text = "time : " + (int)currentTimer / 60 + ":0" + (int)currentTimer % 60;
-        else
-            time.text = "time : " + (int)currentTimer / 60 + ":" + (int)currentTimer % 60;
-
+        time.text = "time : " + currentMinute + ":" + currentSecond + " / " +
+            ((int)goalTimer / 60).ToString() + ":" + ((int)goalTimer % 60).ToString("00");
     }
 
     public void MainMenu()
@@ -126,4 +122,11 @@ public class GameManager : MonoBehaviour
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
+}
+
+public enum GameMode
+{
+    NeverDie,
+    OneShot,
+    ThreeShot,
 }

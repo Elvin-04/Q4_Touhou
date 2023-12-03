@@ -1,53 +1,91 @@
-using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using System.Collections.Generic;
 using UnityEngine.SceneManagement;
 
 public class MainMenuManager : MonoBehaviour
 {
-    public List<Level> allLevels;
 
-    public TextMeshProUGUI levelNumber;
-    public TextMeshProUGUI highScore;
-    public TextMeshProUGUI maxTime;
+    private AudioSource audioSource;
+    private int levelSelected = -1;
+
+    public List<Level> levels;
+
+    public TextMeshProUGUI musicName;
+    public TextMeshProUGUI musicTime;
     public TextMeshProUGUI levelWin;
-
-    public Color winColor;
-    public Color looseColor;
 
     public string sceneToLoad = "";
 
     public GameObject pannel;
 
+    public  TMP_Dropdown dropdownGameMode;
+
     private void Start()
     {
+        levelSelected = 1000;
+        audioSource = GetComponent<AudioSource>();
         pannel.SetActive(false);
     }
 
-    public void OnClick(int level)
+    public void OnClick(int levelSelected)
     {
-        pannel.SetActive(true);
-        levelNumber.text = "Level " + allLevels[level].level;
-        highScore.text = "high score : " + allLevels[level].highScore.ToString("000000000");
-        maxTime.text = "Best time : " + allLevels[level].bestTime;
-        sceneToLoad = allLevels[level].sceneName;
-
-        if (allLevels[level].levelWin)
+        audioSource.clip = levels[levelSelected].clip;
+        if (this.levelSelected != levelSelected)
         {
-            levelWin.text = "Win";
-            levelWin.color = winColor;
+            audioSource.time = 15f;
+            audioSource.Play();
+        }
+
+        this.levelSelected = levelSelected;
+        pannel.SetActive(true);
+        
+        
+        
+        sceneToLoad = levels[levelSelected].sceneName;
+
+        if (levels[levelSelected].levelWin)
+        {
+            levelWin.text = "won : yes";
         }
         else
         {
-            levelWin.text = "not win";
-            levelWin.color = looseColor;
+            levelWin.text = "won : no";
         }
 
+        musicName.text = "music : " + levels[levelSelected].clip.name;
+
+        float minutes = levels[levelSelected].clip.length / 60;
+        int seconds = (int)levels[levelSelected].clip.length % 60;
+        string secondsText;
+        if (seconds < 10)
+        {
+            secondsText = "0" + seconds;
+        }
+        else
+        {
+            secondsText = seconds.ToString();
+        }
+
+        musicTime.text = "music time : " + (int)minutes + ":" + secondsText;
     }
 
     public void PlayButton()
     {
+
+        switch(dropdownGameMode.value)
+        {
+            case 0:
+                levels[levelSelected].mode = GameMode.NeverDie;
+                break;
+            case 1:
+                levels[levelSelected].mode = GameMode.OneShot;
+                break;
+            case 2:
+                levels[levelSelected].mode = GameMode.ThreeShot;
+                break;
+        }
+
         if(sceneToLoad != "")
             SceneManager.LoadScene(sceneToLoad);
     }
