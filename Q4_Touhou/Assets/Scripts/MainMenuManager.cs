@@ -19,7 +19,7 @@ public class MainMenuManager : MonoBehaviour
 
     public GameObject pannel;
 
-    public  TMP_Dropdown dropdownGameMode;
+    public TMP_Dropdown dropdownGameMode;
 
     private void Start()
     {
@@ -31,6 +31,7 @@ public class MainMenuManager : MonoBehaviour
     public void OnClick(int levelSelected)
     {
         audioSource.clip = levels[levelSelected].clip;
+
         if (this.levelSelected != levelSelected)
         {
             audioSource.time = 15f;
@@ -39,8 +40,6 @@ public class MainMenuManager : MonoBehaviour
 
         this.levelSelected = levelSelected;
         pannel.SetActive(true);
-        
-        
         
         sceneToLoad = levels[levelSelected].sceneName;
 
@@ -57,17 +56,8 @@ public class MainMenuManager : MonoBehaviour
 
         float minutes = levels[levelSelected].clip.length / 60;
         int seconds = (int)levels[levelSelected].clip.length % 60;
-        string secondsText;
-        if (seconds < 10)
-        {
-            secondsText = "0" + seconds;
-        }
-        else
-        {
-            secondsText = seconds.ToString();
-        }
 
-        musicTime.text = "music time : " + (int)minutes + ":" + secondsText;
+        musicTime.text = "music time : " + (int)minutes + ":" + seconds.ToString("00");
     }
 
     public void PlayButton()

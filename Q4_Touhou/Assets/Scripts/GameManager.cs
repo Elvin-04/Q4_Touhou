@@ -1,5 +1,6 @@
 using TMPro;
 using UnityEngine;
+using UnityEngine.Rendering.UI;
 using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
@@ -33,6 +34,7 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         clip = source.clip;
+
         if(goalTimer == 0)
             goalTimer = clip.length;
 
@@ -50,7 +52,6 @@ public class GameManager : MonoBehaviour
         {
             winned = true;
             EndLevel(true);
-
         }
     }
 

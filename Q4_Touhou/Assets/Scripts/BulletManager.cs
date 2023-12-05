@@ -20,7 +20,6 @@ public class BulletManager : MonoBehaviour
 
     void Start()
     {
-
         for (int i = 0; i < differentBulletType.Count; i++)
         {
             for (int j = 0; j < BulletSpawnByType; j++)

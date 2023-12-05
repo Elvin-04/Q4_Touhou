@@ -11,4 +11,5 @@ public class MapCollider : MonoBehaviour
             BulletManager.instance.DestroyBullet(collision.gameObject);
         }
     }
+
 }
